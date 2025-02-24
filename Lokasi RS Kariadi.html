@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petunjuk Arah dari Lokasi Sekarang</title>
+    <title>Petunjuk Arah di Lingkungan RSUP dr. Kariadi</title>
     <style>
         .btn {
+            box-shadow: .15rem .15rem black;
+            margin: 5px;
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
@@ -14,35 +16,51 @@
             text-align: center;
             border-radius: 5px;
         }
+        
         .btn:hover {
             background-color: #45a049;
+        }
+        
+        #searchBox {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
     <h2>Petunjuk Arah di Lingkungan RSUP dr. Kariadi</h2>
-    <button class="btn" onclick="getDirection()">IGD</button>
-    <button class="btn" onclick="getDirection()">ICU</button>
+    
+    <!-- Kolom Pencarian -->
+    <input type="text" id="searchBox" placeholder="Cari tujuan (IGD, ICU, dll.)" onkeyup="filterButtons()">
+    
+    <!-- Daftar Tombol Tujuan -->
+    <div id="buttonContainer">
+        <button class="btn" data-name="RUANG OPERASI">Ruang Operasi</button>
+        <button class="btn" data-name="KASIR">KASIR</button>
+        <button class="btn" data-name="IGD">IGD</button>
+        <button class="btn" data-name="ICU">ICU</button>
+        <!-- Tombol lainnya dapat ditambahkan di sini -->
+    </div>
 
     <script>
-        function getDirection() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
+        // Fungsi untuk memfilter tombol berdasarkan input pencarian
+        function filterButtons() {
+            const searchQuery = document.getElementById('searchBox').value.trim().toLowerCase();
+            const buttons = document.querySelectorAll('#buttonContainer .btn'); // Ambil semua tombol di dalam buttonContainer
 
-                    // Gunakan alamat untuk tujuan
-                    const destination = "IGD+RSUP+dr.+Kariadi,+Semarang"; // Ganti dengan tujuan yang diinginkan
-
-                    // URL petunjuk arah dengan travelmode=walking untuk jalan kaki
-                    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${destination}&travelmode=walking`;
-                    window.open(url, '_blank');
-                }, function() {
-                    alert("Gagal mendapatkan lokasi Anda.");
-                });
-            } else {
-                alert("Geolocation tidak tersedia pada browser Anda.");
-            }
+            buttons.forEach(function(button) {
+                const buttonName = button.getAttribute('data-name').toLowerCase();
+                
+                // Cek jika nama tombol sesuai dengan pencarian (case-insensitive)
+                if (buttonName.includes(searchQuery)) {
+                    button.style.display = 'inline-block'; // Tampilkan tombol yang cocok
+                } else {
+                    button.style.display = 'none'; // Sembunyikan tombol yang tidak cocok
+                }
+            });
         }
     </script>
 </body>
