@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petunjuk Arah RS dr Kariadi</title>
+    <style>
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h2>Petunjuk Arah dari Lokasi Sekarang ke Tujuan</h2>
+    <button class="btn" onclick="getDirection()">IGD RS Kariadi</button>
+
+    <button class="btn" onclick="getDirection()">ICU RS Kariadi</button>
+
+    <script>
+        function getDirection() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    // Ganti tujuan dengan URL tempat yang diinginkan
+                    const destination = "IGD+RSUP+dr.+Kariadi,+Semarang";
+                    
+                    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${destination}`;
+                    window.open(url, '_blank');
+                }, function() {
+                    alert("Gagal mendapatkan lokasi Anda.");
+                });
+            } else {
+                alert("Geolocation tidak tersedia pada browser Anda.");
+            }
+        }
+    </script>
+</body>
+</html>
