@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Petunjuk Arah RS dr Kariadi</title>
+    <title>Petunjuk Arah dari Lokasi Sekarang</title>
     <style>
         .btn {
             padding: 10px 20px;
@@ -20,10 +20,8 @@
     </style>
 </head>
 <body>
-    <h2>Petunjuk Arah dari Lokasi Sekarang ke Tujuan</h2>
-    <button class="btn" onclick="getDirection()">IGD RS Kariadi</button>
-
-    <button class="btn" onclick="getDirection()">ICU RS Kariadi</button>
+    <h2>Petunjuk Arah Jalan Kaki dari Lokasi Sekarang ke IGD RSUP dr. Kariadi</h2>
+    <button class="btn" onclick="getDirection()">Dapatkan Petunjuk Arah Jalan Kaki</button>
 
     <script>
         function getDirection() {
@@ -31,10 +29,12 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                     const lat = position.coords.latitude;
                     const lon = position.coords.longitude;
-                    // Ganti tujuan dengan URL tempat yang diinginkan
-                    const destination = "IGD+RSUP+dr.+Kariadi,+Semarang";
-                    
-                    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${destination}`;
+
+                    // Gunakan alamat untuk tujuan
+                    const destination = "IGD+RSUP+dr.+Kariadi,+Semarang"; // Ganti dengan tujuan yang diinginkan
+
+                    // URL petunjuk arah dengan travelmode=walking untuk jalan kaki
+                    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${destination}&travelmode=walking`;
                     window.open(url, '_blank');
                 }, function() {
                     alert("Gagal mendapatkan lokasi Anda.");
