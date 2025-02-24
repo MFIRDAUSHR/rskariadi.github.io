@@ -38,14 +38,23 @@
     
     <!-- Daftar Tombol Tujuan -->
     <div id="buttonContainer">
-        <button class="btn" data-name="RUANG OPERASI">Ruang Operasi</button>
-        <button class="btn" data-name="KASIR">KASIR</button>
-        <button class="btn" data-name="IGD">IGD</button>
-        <button class="btn" data-name="ICU">ICU</button>
+        <button class="btn" data-name="RUANG OPERASI" onclick="getDirection('RUANG OPERASI')">Ruang Operasi</button>
+        <button class="btn" data-name="KASIR" onclick="getDirection('KASIR')">KASIR</button>
+        <button class="btn" data-name="IGD" onclick="getDirection('IGD')">IGD</button>
+        <button class="btn" data-name="ICU" onclick="getDirection('ICU')">ICU</button>
         <!-- Tombol lainnya dapat ditambahkan di sini -->
     </div>
 
     <script>
+        // Daftar tujuan dan alamat tujuan di Google Maps
+        const destinations = {
+            "RUANG OPERASI": "IGD+RSUP+dr.+Kariadi,+Semarang",
+            "KASIR": "IGD+RSUP+dr.+Kariadi,+Semarang",
+            "IGD": "IGD+RSUP+dr.+Kariadi,+Semarang",
+            "ICU": "ICU+RSUP+dr.+Kariadi,+Semarang",
+            // Tambahkan lebih banyak tujuan sesuai kebutuhan
+        };
+
         // Fungsi untuk memfilter tombol berdasarkan input pencarian
         function filterButtons() {
             const searchQuery = document.getElementById('searchBox').value.trim().toLowerCase();
@@ -61,6 +70,27 @@
                     button.style.display = 'none'; // Sembunyikan tombol yang tidak cocok
                 }
             });
+        }
+
+        // Fungsi untuk membuka Google Maps dengan petunjuk arah
+        function getDirection(buttonName) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    // Ambil tujuan berdasarkan nama tombol yang diklik
+                    const destination = destinations[buttonName];
+
+                    // URL petunjuk arah dengan travelmode=walking untuk jalan kaki
+                    const url = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${destination}&travelmode=walking`;
+                    window.open(url, '_blank'); // Buka di tab baru
+                }, function() {
+                    alert("Gagal mendapatkan lokasi Anda.");
+                });
+            } else {
+                alert("Geolocation tidak tersedia pada browser Anda.");
+            }
         }
     </script>
 </body>
